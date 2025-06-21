@@ -1,0 +1,1403 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>App Educativo - Ouvidorias Cofen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a3a6c, #2c5fa3);
+            color: #333;
+            min-height: 100vh;
+            padding: 15px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        header {
+            background: linear-gradient(to right, #1a3a6c, #2c5fa3);
+            color: white;
+            padding: 20px 25px;
+            text-align: center;
+            position: relative;
+        }
+        
+        header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        .tabs {
+            display: flex;
+            background: #f0f4f9;
+            border-bottom: 2px solid #d0d8e0;
+            flex-wrap: wrap;
+        }
+        
+        .tab-btn {
+            flex: 1;
+            padding: 15px 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #2c5fa3;
+            border-bottom: 3px solid transparent;
+            min-width: 150px;
+        }
+        
+        .tab-btn:hover {
+            background: #e0e8f0;
+        }
+        
+        .tab-btn.active {
+            background: white;
+            color: #1a3a6c;
+            border-bottom: 3px solid #1a3a6c;
+        }
+        
+        .tab-content {
+            display: none;
+            padding: 20px;
+            min-height: 500px;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Estilos para Material de Estudo */
+        .study-section {
+            margin-bottom: 30px;
+            background: #f8fafc;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            border-left: 5px solid #1a3a6c;
+            transition: transform 0.3s ease;
+        }
+        
+        .study-section:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+        }
+        
+        .section-header h2 {
+            color: #1a3a6c;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .section-header i {
+            font-size: 1.2rem;
+            color: #1a3a6c;
+        }
+        
+        .section-content {
+            display: none;
+            padding-top: 15px;
+            border-top: 1px solid #e0e8f0;
+        }
+        
+        .section-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .method-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .method-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            border: 1px solid #e0e8f0;
+            transition: transform 0.3s ease;
+        }
+        
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+        }
+        
+        .method-card h3 {
+            color: #1a3a6c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .method-card ul {
+            padding-left: 18px;
+        }
+        
+        .method-card li {
+            margin-bottom: 8px;
+            line-height: 1.5;
+            position: relative;
+            padding-left: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .method-card li:before {
+            content: "•";
+            color: #2c5fa3;
+            position: absolute;
+            left: 0;
+            font-weight: bold;
+        }
+        
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .status-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            border-top: 4px solid #1a3a6c;
+        }
+        
+        .status-card h3 {
+            color: #1a3a6c;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+        }
+        
+        .status-card p {
+            line-height: 1.5;
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+        
+        .timeline {
+            position: relative;
+            padding: 15px 0;
+            margin-top: 15px;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 15px;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: #1a3a6c;
+            border-radius: 2px;
+        }
+        
+        .timeline-item {
+            position: relative;
+            padding-left: 40px;
+            margin-bottom: 25px;
+        }
+        
+        .timeline-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: 12px;
+            top: 5px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #2c5fa3;
+            border: 3px solid white;
+            z-index: 1;
+        }
+        
+        .timeline-content {
+            background: white;
+            border-radius: 10px;
+            padding: 12px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+        
+        .timeline-content h3 {
+            color: #1a3a6c;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+        }
+        
+        .timeline-content p {
+            font-size: 0.95rem;
+        }
+        
+        .legislation-list {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+        }
+        
+        .legislation-item {
+            padding: 12px;
+            border-bottom: 1px solid #e0e8f0;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        
+        .legislation-item:last-child {
+            border-bottom: none;
+        }
+        
+        .legislation-item i {
+            color: #1a3a6c;
+            font-size: 1.1rem;
+            margin-top: 3px;
+        }
+        
+        .legislation-item a {
+            color: #2c5fa3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .legislation-item a:hover {
+            text-decoration: underline;
+        }
+        
+        .regimento-content {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 15px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+        
+        .regimento-content p {
+            margin-bottom: 12px;
+        }
+        
+        .highlight {
+            background: #e8f4ff;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #1a3a6c;
+            font-size: 0.95rem;
+        }
+        
+        .interactive-diagram {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin: 20px 0;
+            gap: 10px;
+        }
+        
+        .flow-step {
+            background: #1a3a6c;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            text-align: center;
+            min-width: 110px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            font-size: 0.9rem;
+        }
+        
+        .flow-step:hover {
+            transform: translateY(-5px);
+            background: #2c5fa3;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .flow-step:after {
+            content: "→";
+            position: absolute;
+            right: -20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #1a3a6c;
+            font-size: 1.3rem;
+        }
+        
+        .flow-step:last-child:after {
+            display: none;
+        }
+        
+        /* Créditos */
+        .credits {
+            text-align: center;
+            padding: 20px;
+            background: #f0f4f9;
+            border-top: 2px solid #d0d8e0;
+            color: #1a3a6c;
+            font-size: 0.9rem;
+        }
+        
+        .credits p {
+            margin: 5px 0;
+        }
+        
+        .credits a {
+            color: #2c5fa3;
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .credits a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Estilos do Quiz */
+        .quiz-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .quiz-intro h2 {
+            color: #1a3a6c;
+            margin-bottom: 15px;
+            font-size: 1.6rem;
+        }
+        
+        .quiz-intro p {
+            margin-bottom: 20px;
+            line-height: 1.6;
+            font-size: 1rem;
+        }
+        
+        .difficulty-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            margin: 15px 0 25px;
+        }
+        
+        .level-btn {
+            background: linear-gradient(to bottom, #f0f0f0, #e0e0e0);
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            flex: 1;
+            min-width: 140px;
+            max-width: 200px;
+            color: #1a3a6c;
+        }
+        
+        .level-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .level-btn.easy {
+            background: linear-gradient(to bottom, #d4edda, #c3e6cb);
+            border-left: 5px solid #28a745;
+        }
+        
+        .level-btn.medium {
+            background: linear-gradient(to bottom, #fff3cd, #ffeeba);
+            border-left: 5px solid #ffc107;
+        }
+        
+        .level-btn.hard {
+            background: linear-gradient(to bottom, #f8d7da, #f5c6cb);
+            border-left: 5px solid #dc3545;
+        }
+        
+        .level-btn.expert {
+            background: linear-gradient(to bottom, #cce5ff, #b8daff);
+            border-left: 5px solid #007bff;
+        }
+        
+        .quiz-container {
+            display: none;
+        }
+        
+        .question-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+        }
+        
+        .question-counter {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1a3a6c;
+        }
+        
+        .score {
+            background: #e9ecef;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .question {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            line-height: 1.5;
+            color: #212529;
+            font-weight: 500;
+        }
+        
+        .options {
+            display: grid;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+        
+        .option {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 12px 15px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+        }
+        
+        .option:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .option.selected {
+            background: #cce5ff;
+            border-color: #007bff;
+            font-weight: 600;
+        }
+        
+        .option.correct {
+            background: #d4edda;
+            border-color: #28a745;
+        }
+        
+        .option.incorrect {
+            background: #f8d7da;
+            border-color: #dc3545;
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .nav-btn {
+            background: linear-gradient(to right, #1a3a6c, #2c5fa3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .nav-btn:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+            opacity: 0.7;
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+        
+        .results {
+            text-align: center;
+            padding: 25px;
+            display: none;
+        }
+        
+        .results h2 {
+            font-size: 1.8rem;
+            color: #1a3a6c;
+            margin-bottom: 15px;
+        }
+        
+        .final-score {
+            font-size: 4rem;
+            font-weight: 700;
+            color: #1a3a6c;
+            margin: 15px 0;
+            text-shadow: 0 3px 6px rgba(0,0,0,0.1);
+        }
+        
+        .message {
+            font-size: 1.2rem;
+            margin-bottom: 25px;
+            color: #495057;
+        }
+        
+        .feedback {
+            background: #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            text-align: left;
+        }
+        
+        .feedback h3 {
+            color: #1a3a6c;
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e9ecef;
+            border-radius: 4px;
+            margin: 15px 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #1a3a6c, #2c5fa3);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        /* Media Queries para Mobile */
+        @media (max-width: 768px) {
+            .tab-btn {
+                min-width: 100%;
+                font-size: 0.95rem;
+                padding: 12px 8px;
+            }
+            
+            .flow-step {
+                width: 100%;
+                max-width: 220px;
+            }
+            
+            .flow-step:after {
+                content: "↓";
+                right: 50%;
+                top: 100%;
+                transform: translateX(50%);
+                left: auto;
+            }
+            
+            .interactive-diagram {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.2rem;
+            }
+            
+            .question {
+                font-size: 1.1rem;
+            }
+            
+            .navigation {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .nav-btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1><i class="fas fa-headset"></i>Guia do Ouvidor</h1>
+            <p>Regimento Nacional das Ouvidorias do Sistema Cofen/Coren</p>
+        </header>
+        
+        <div class="tabs">
+            <button class="tab-btn active" data-tab="study"><i class="fas fa-book"></i> Material de Estudo</button>
+            <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Teste Seu Conhecimento</button>
+        </div>
+        
+        <div class="tab-content active" id="study-tab">
+            <!-- Seção do Regimento -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('regimento')">
+                    <h2><i class="fas fa-file-alt"></i> Regimento das Ouvidorias</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="regimento-content">
+                    <div class="regimento-content">
+                        <p>O Regimento Nacional de Ouvidoria do Sistema Cofen/Conselhos Regionais de Enfermagem padroniza a atuação das Ouvidorias pela incorporação dos métodos mnemônicos <strong>DIA, JALECO e PROSA</strong>.</p>
+                        
+                        <div class="highlight">
+                            <p>Tais métodos subsidiam a triagem, análise e resposta das manifestações, constituindo instrumentos de gestão operacional e estratégica que promovem organização, rastreabilidade e clareza na divisão de responsabilidades.</p>
+                        </div>
+                        
+                        <p>Assegurando procedimentos uniformes, eficácia no tratamento das manifestações e conformidade com a legislação. Garante uma atuação ética, transparente, diligente e imparcial, com escuta qualificada e foco na melhoria contínua dos serviços.</p>
+                        
+                        <p>Fortalece o papel do Ouvidor como agente de transformação e promotor da transparência, com regras claras sobre competências, prazos e metodologias. Reafirma o compromisso com a escuta ativa, a humanização do atendimento e a valorização da cidadania.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção dos Métodos -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('metodos')">
+                    <h2><i class="fas fa-lightbulb"></i> Métodos Mnemônicos</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="metodos-content">
+                    <div class="method-grid">
+                        <div class="method-card">
+                            <h3><i class="fas fa-calendar-day"></i> Método DIA</h3>
+                            <p>Macroestrutura da Jornada de Atendimento:</p>
+                            <ul>
+                                <li><strong>D: Denúncias</strong> - Relato formal de atos ilícitos ou irregularidades</li>
+                                <li><strong>I: Informações</strong> - Acompanhamento de legislações e normativos</li>
+                                <li><strong>A: Acompanhamento</strong> - Monitoramento de todas as etapas</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-user-md"></i> Método JALECO</h3>
+                            <p>Classificação Estratégica das Denúncias:</p>
+                            <ul>
+                                <li><strong>J: Judiciais/Jurídicas</strong></li>
+                                <li><strong>A: Assédio</strong></li>
+                                <li><strong>L: Legislações</strong></li>
+                                <li><strong>E: Éticas</strong></li>
+                                <li><strong>C: Conselhos e Conselheiros</strong></li>
+                                <li><strong>O: Outros Demandantes</strong></li>
+                            </ul>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-tasks"></i> Método PROSA</h3>
+                            <p>Análise Técnica e Encaminhamentos:</p>
+                            <ul>
+                                <li><strong>P: Prazos</strong></li>
+                                <li><strong>R: Rotina</strong></li>
+                                <li><strong>O: Outros</strong></li>
+                                <li><strong>S: Solicitações/SEI</strong></li>
+                                <li><strong>A: Anuidades/Inscrições</strong></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Status -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('status')">
+                    <h2><i class="fas fa-clipboard-list"></i> Status das Manifestações</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="status-content">
+                    <div class="status-grid">
+                        <div class="status-card">
+                            <h3>I. A DISTRIBUIR</h3>
+                            <p>Manifestação registrada no sistema, ainda não analisada ou triada pela Ouvidoria.</p>
+                        </div>
+                        
+                        <div class="status-card">
+                            <h3>II. TRAMITANDO</h3>
+                            <p>Em análise pela Ouvidoria, aguardando definição de encaminhamento ou resposta.</p>
+                        </div>
+                        
+                        <div class="status-card">
+                            <h3>III. ENCAMINHADA</h3>
+                            <p>Manifestação enviada à área competente, aguardando resposta técnica ou administrativa.</p>
+                        </div>
+                        
+                        <div class="status-card">
+                            <h3>IV. RESPONDIDA</h3>
+                            <p>Manifestação com resposta devidamente elaborada e disponível, pendente apenas de avaliação do Ouvidor e envio formal ao manifestante.</p>
+                        </div>
+                        
+                        <div class="status-card">
+                            <h3>V. CONCLUÍDA</h3>
+                            <p>Manifestação cujo retorno foi encaminhado ao manifestante e o registro arquivado no sistema.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Fluxo -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('fluxo')">
+                    <h2><i class="fas fa-project-diagram"></i> Fluxo das Manifestações</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="fluxo-content">
+                    <div class="interactive-diagram">
+                        <div class="flow-step" onclick="showFlowInfo('registro')">Registro</div>
+                        <div class="flow-step" onclick="showFlowInfo('triagem')">Triagem</div>
+                        <div class="flow-step" onclick="showFlowInfo('encaminhamento')">Encaminhamento</div>
+                        <div class="flow-step" onclick="showFlowInfo('resposta')">Resposta</div>
+                        <div class="flow-step" onclick="showFlowInfo('conclusao')">Conclusão</div>
+                    </div>
+                    
+                    <div id="flow-info" class="highlight" style="display: none;">
+                        <h3 id="flow-title">Título do Fluxo</h3>
+                        <p id="flow-description">Descrição do passo do fluxo</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Prazos -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('prazos')">
+                    <h2><i class="fas fa-clock"></i> Prazos do Sistema</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="prazos-content">
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>Prazo Total</h3>
+                                <p><strong>30 dias corridos</strong> para resposta conclusiva a partir do registro.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>Análise Inicial</h3>
+                                <p><strong>15 dias corridos</strong> para classificação e encaminhamento ao setor competente.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>Análise Administrativa</h3>
+                                <p><strong>10 dias corridos</strong> para os setores administrativos analisarem e deliberarem.</p>
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-content">
+                                <h3>Resposta Final</h3>
+                                <p><strong>5 dias corridos</strong> para a Ouvidoria realizar análise final e enviar resposta.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção de Legislação -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('legislacao')">
+                    <h2><i class="fas fa-gavel"></i> Legislação Relevante</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="legislacao-content">
+                    <div class="legislation-list">
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/leis/l7498.htm" target="_blank">Lei nº 7.498/1986</a></h3>
+                                <p>Regulamenta o exercício da enfermagem e dá outras providências.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/lei/l13460.htm" target="_blank">Lei nº 13.460/2017</a></h3>
+                                <p>Dispõe sobre participação, proteção e defesa dos direitos do usuário dos serviços públicos da administração pública.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decreto/d9094.htm" target="_blank">Decreto nº 9.094/2017</a></h3>
+                                <p>Regulamenta a Lei nº 13.460/2017 sobre ouvidorias e participação do usuário.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2011-2014/2011/lei/l12527.htm" target="_blank">Lei nº 12.527/2011</a></h3>
+                                <p>Lei de Acesso à Informação (LAI).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2018/lei/l13709.htm" target="_blank">Lei nº 13.709/2018</a></h3>
+                                <p>Lei Geral de Proteção de Dados Pessoais (LGPD).</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/leis/l5905.htm" target="_blank">Lei nº 5.905/1973</a></h3>
+                                <p>Cria os Conselhos Federal e Regionais de Enfermagem.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="legislation-item">
+                            <i class="fas fa-book"></i>
+                            <div>
+                                <h3><a href="https://www.cofen.gov.br/resolucao-cofen-5642017_59145.html" target="_blank">Resolução Cofen nº 564/2017</a></h3>
+                                <p>Aprova o novo Código de Ética dos Profissionais de Enfermagem.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="tab-content" id="quiz-tab">
+            <div class="quiz-intro">
+                <h2>Teste Seu Conhecimento</h2>
+                <p>Avalie sua compreensão sobre os métodos DIA, JALECO e PROSA, status das manifestações e prazos do sistema de Ouvidorias.</p>
+                <p>Selecione um nível de dificuldade para começar:</p>
+                
+                <div class="difficulty-selector">
+                    <button class="level-btn easy" data-level="easy">Fácil</button>
+                    <button class="level-btn medium" data-level="medium">Médio</button>
+                    <button class="level-btn hard" data-level="hard">Difícil</button>
+                    <button class="level-btn expert" data-level="expert">Expert</button>
+                </div>
+            </div>
+            
+            <div class="quiz-container">
+                <div class="question-header">
+                    <div class="question-counter">Pergunta <span id="current">1</span> de <span id="total">5</span></div>
+                    <div class="score">Pontuação: <span id="score">0</span></div>
+                </div>
+                
+                <div class="progress-bar">
+                    <div class="progress" id="progress" style="width: 0%"></div>
+                </div>
+                
+                <div class="question" id="question"></div>
+                
+                <div class="options" id="options"></div>
+                
+                <div class="navigation">
+                    <button class="nav-btn" id="prev-btn" disabled>Anterior</button>
+                    <button class="nav-btn" id="next-btn">Próxima</button>
+                </div>
+            </div>
+            
+            <div class="results">
+                <h2>Quiz Concluído!</h2>
+                <div class="final-score" id="final-score">0%</div>
+                <div class="message" id="message"></div>
+                <button class="nav-btn" id="restart-btn">Reiniciar Quiz</button>
+                
+                <div class="feedback" id="feedback">
+                    <h3>Resumo dos Métodos</h3>
+                    <div id="feedback-content"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Créditos -->
+        <div class="credits">
+            <p><strong>Desenvolvido por:</strong> Eduardo Fernando de Souza e Glayson Campos</p>
+<p>Baseado no Regimento Nacional das Ouvidorias - 2025</p>
+            <p><strong>Versão:</strong> 1.0.0 | Junho 2025</p>
+        </div>
+    </div>
+
+    <script>
+        // Dados do quiz organizados por nível de dificuldade
+        const quizData = {
+            easy: [
+                {
+                    question: "O que significa a letra 'D' no método DIA?",
+                    options: ["Denúncias", "Documentos", "Diretrizes", "Diligência"],
+                    answer: 0
+                },
+                {
+                    question: "Qual o status de uma manifestação que já foi respondida e está pendente apenas de envio formal ao manifestante?",
+                    options: ["A DISTRIBUIR", "TRAMITANDO", "ENCAMINHADA", "RESPONDIDA"],
+                    answer: 3
+                },
+                {
+                    question: "Qual o prazo total para a Ouvidoria apresentar resposta conclusiva?",
+                    options: ["10 dias", "15 dias", "30 dias", "45 dias"],
+                    answer: 2
+                }
+            ],
+            medium: [
+                {
+                    question: "No método JALECO, qual categoria trata de denúncias sobre assédio?",
+                    options: ["J: Judiciais", "A: Assédio", "L: Legislações", "E: Éticas"],
+                    answer: 1
+                },
+                {
+                    question: "Qual método é responsável pela análise técnica e encaminhamentos?",
+                    options: ["DIA", "JALECO", "PROSA", "Nenhum dos anteriores"],
+                    answer: 2
+                },
+                {
+                    question: "Qual o prazo que os setores administrativos têm para analisar e deliberar sobre a demanda após receber da Ouvidoria?",
+                    options: ["5 dias", "10 dias", "15 dias", "20 dias"],
+                    answer: 1
+                },
+                {
+                    question: "O que significa o status 'ENCAMINHADA'?",
+                    options: [
+                        "Manifestação registrada, ainda não analisada",
+                        "Em análise pela Ouvidoria",
+                        "Enviada à área competente, aguardando resposta",
+                        "Resposta disponível, pendente envio"
+                    ],
+                    answer: 2
+                }
+            ],
+            hard: [
+                {
+                    question: "No método PROSA, o que a letra 'S' representa?",
+                    options: [
+                        "Solicitações/SEI",
+                        "Sugestões",
+                        "Sindicância",
+                        "Solução"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "Em que método se classifica as denúncias em categorias como Judiciais, Assédio e Éticas?",
+                    options: ["DIA", "JALECO", "PROSA", "Todos"],
+                    answer: 1
+                },
+                {
+                    question: "Qual o prazo que a Ouvidoria tem para a análise final e apresentação da devolutiva após receber a resposta do setor administrativo?",
+                    options: ["3 dias", "5 dias", "10 dias", "15 dias"],
+                    answer: 1
+                },
+                {
+                    question: "Qual o status de uma manifestação que foi finalizada e o registro arquivado?",
+                    options: ["RESPONDIDA", "CONCLUÍDA", "ARQUIVADA", "FINALIZADA"],
+                    answer: 1
+                }
+            ],
+            expert: [
+                {
+                    question: "O que o método DIA estabelece para a jornada diária de atendimento?",
+                    options: [
+                        "Apenas o tratamento de denúncias",
+                        "Uma macroestrutura baseada em Denúncias, Informações e Acompanhamento",
+                        "O fluxo de trabalho para elogios e reclamações",
+                        "Os prazos para cada etapa"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "No método JALECO, a categoria 'O' refere-se a:",
+                    options: [
+                        "Ouvidorias",
+                        "Organizações de saúde",
+                        "Outros Demandantes",
+                        "Obrigações legais"
+                    ],
+                    answer: 2
+                },
+                {
+                    question: "No método PROSA, a letra 'O' abrange:",
+                    options: [
+                        "Ouvidorias",
+                        "Orientações",
+                        "Outros (Elogios, Reclamações, Sugestões, etc.)",
+                        "Obrigações"
+                    ],
+                    answer: 2
+                },
+                {
+                    question: "O que acontece se uma manifestação estiver finalizada na Ouvidoria, mas o processo interno ainda estiver tramitando?",
+                    options: [
+                        "A manifestação é considerada concluída e não pode ser reaberta",
+                        "A manifestação fica em status 'TRAMITANDO' até a conclusão total",
+                        "A manifestação pode ser reaberta quando a análise pela área competente for concluída",
+                        "A manifestação é arquivada definitivamente"
+                    ],
+                    answer: 2
+                },
+                {
+                    question: "Qual o prazo máximo que a Ouvidoria tem para a análise inicial e encaminhamento ao setor administrativo?",
+                    options: ["5 dias", "10 dias", "15 dias", "20 dias"],
+                    answer: 2
+                }
+            ]
+        };
+
+        // Elementos DOM
+        const tabBtns = document.querySelectorAll('.tab-btn');
+        const tabContents = document.querySelectorAll('.tab-content');
+        const difficultyScreen = document.querySelector('.quiz-intro');
+        const quizScreen = document.querySelector('.quiz-container');
+        const resultsScreen = document.querySelector('.results');
+        const levelButtons = document.querySelectorAll('.level-btn');
+        const questionElement = document.getElementById('question');
+        const optionsElement = document.getElementById('options');
+        const currentElement = document.getElementById('current');
+        const totalElement = document.getElementById('total');
+        const scoreElement = document.getElementById('score');
+        const finalScoreElement = document.getElementById('final-score');
+        const messageElement = document.getElementById('message');
+        const prevButton = document.getElementById('prev-btn');
+        const nextButton = document.getElementById('next-btn');
+        const restartButton = document.getElementById('restart-btn');
+        const progressBar = document.getElementById('progress');
+        const feedbackContent = document.getElementById('feedback-content');
+
+        // Variáveis do quiz
+        let currentLevel = '';
+        let currentQuestions = [];
+        let currentQuestionIndex = 0;
+        let userScore = 0;
+        let userAnswers = [];
+        let selectedOption = null;
+
+        // Sistema de abas
+        tabBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const tabId = btn.dataset.tab;
+                
+                // Remover classe ativa de todas as abas
+                tabBtns.forEach(b => b.classList.remove('active'));
+                tabContents.forEach(c => c.classList.remove('active'));
+                
+                // Adicionar classe ativa à aba selecionada
+                btn.classList.add('active');
+                document.getElementById(`${tabId}-tab`).classList.add('active');
+                
+                // Resetar o quiz ao mudar de aba
+                if (tabId === 'quiz') {
+                    resetQuiz();
+                }
+            });
+        });
+
+        // Funções para Material de Estudo
+        function toggleSection(sectionId) {
+            const content = document.getElementById(`${sectionId}-content`);
+            const icon = document.querySelector(`#${sectionId}-content`).previousElementSibling.querySelector('.fa-chevron-down');
+            
+            if (content.classList.contains('active')) {
+                content.classList.remove('active');
+                icon.classList.remove('fa-chevron-up');
+                icon.classList.add('fa-chevron-down');
+            } else {
+                content.classList.add('active');
+                icon.classList.remove('fa-chevron-down');
+                icon.classList.add('fa-chevron-up');
+            }
+        }
+        
+        function showFlowInfo(step) {
+            const flowInfo = document.getElementById('flow-info');
+            const title = document.getElementById('flow-title');
+            const description = document.getElementById('flow-description');
+            
+            flowInfo.style.display = 'block';
+            
+            switch(step) {
+                case 'registro':
+                    title.textContent = 'Registro da Manifestação';
+                    description.textContent = 'A manifestação é registrada no sistema oficial de Ouvidoria, iniciando o processo de atendimento.';
+                    break;
+                case 'triagem':
+                    title.textContent = 'Triagem e Classificação';
+                    description.textContent = 'A Ouvidoria realiza a análise preliminar para verificar adequação, competência e objeto da manifestação.';
+                    break;
+                case 'encaminhamento':
+                    title.textContent = 'Encaminhamento';
+                    description.textContent = 'Quando necessário, a manifestação é encaminhada às unidades administrativas competentes para prestação de informações ou providências.';
+                    break;
+                case 'resposta':
+                    title.textContent = 'Resposta Técnica';
+                    description.textContent = 'Os setores administrativos analisam, instruem e deliberam sobre a demanda no prazo estabelecido.';
+                    break;
+                case 'conclusao':
+                    title.textContent = 'Conclusão e Arquivamento';
+                    description.textContent = 'Após o recebimento da resposta do setor administrativo, a Ouvidoria realiza análise final e apresenta devolutiva conclusiva ao manifestante.';
+                    break;
+            }
+        }
+        
+        // Abrir a primeira seção por padrão
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleSection('regimento');
+        });
+
+        // Iniciar o quiz
+        levelButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                currentLevel = button.dataset.level;
+                startQuiz(currentLevel);
+            });
+        });
+
+        // Resetar o quiz
+        function resetQuiz() {
+            difficultyScreen.style.display = 'block';
+            quizScreen.style.display = 'none';
+            resultsScreen.style.display = 'none';
+        }
+
+        // Iniciar o quiz
+        function startQuiz(level) {
+            currentQuestions = [...quizData[level]];
+            currentQuestionIndex = 0;
+            userScore = 0;
+            userAnswers = [];
+            
+            difficultyScreen.style.display = 'none';
+            quizScreen.style.display = 'block';
+            resultsScreen.style.display = 'none';
+            
+            updateQuestion();
+            updateProgress();
+        }
+
+        // Atualizar a pergunta atual
+        function updateQuestion() {
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+            
+            questionElement.textContent = currentQuestion.question;
+            optionsElement.innerHTML = '';
+            
+            currentElement.textContent = currentQuestionIndex + 1;
+            totalElement.textContent = currentQuestions.length;
+            scoreElement.textContent = userScore;
+            
+            // Criar opções de resposta
+            currentQuestion.options.forEach((option, index) => {
+                const optionElement = document.createElement('div');
+                optionElement.classList.add('option');
+                optionElement.textContent = option;
+                
+                // Verificar se o usuário já respondeu esta pergunta
+                if (userAnswers[currentQuestionIndex] === index) {
+                    optionElement.classList.add('selected');
+                    selectedOption = optionElement;
+                    
+                    // Mostrar feedback se já tiver respondido
+                    if (userAnswers[currentQuestionIndex] !== undefined) {
+                        showAnswerFeedback();
+                    }
+                }
+                
+                optionElement.addEventListener('click', () => selectOption(optionElement, index));
+                optionsElement.appendChild(optionElement);
+            });
+            
+            // Atualizar estado dos botões de navegação
+            prevButton.disabled = currentQuestionIndex === 0;
+            nextButton.textContent = currentQuestionIndex === currentQuestions.length - 1 ? 'Finalizar' : 'Próxima';
+        }
+
+        // Selecionar uma opção
+        function selectOption(optionElement, optionIndex) {
+            // Remover seleção anterior
+            if (selectedOption) {
+                selectedOption.classList.remove('selected');
+            }
+            
+            // Selecionar nova opção
+            optionElement.classList.add('selected');
+            selectedOption = optionElement;
+            
+            // Salvar resposta do usuário
+            userAnswers[currentQuestionIndex] = optionIndex;
+            
+            // Mostrar feedback imediato
+            showAnswerFeedback();
+        }
+
+        // Mostrar feedback da resposta
+        function showAnswerFeedback() {
+            const currentQuestion = currentQuestions[currentQuestionIndex];
+            const options = optionsElement.querySelectorAll('.option');
+            const userAnswer = userAnswers[currentQuestionIndex];
+            
+            options.forEach((option, index) => {
+                option.classList.remove('correct', 'incorrect');
+                
+                if (index === currentQuestion.answer) {
+                    option.classList.add('correct');
+                } else if (index === userAnswer && index !== currentQuestion.answer) {
+                    option.classList.add('incorrect');
+                }
+            });
+            
+            // Atualizar pontuação se acertou
+            if (userAnswer === currentQuestion.answer && !currentQuestion.answered) {
+                userScore++;
+                currentQuestion.answered = true;
+                scoreElement.textContent = userScore;
+            }
+        }
+
+        // Atualizar barra de progresso
+        function updateProgress() {
+            const progress = ((currentQuestionIndex + 1) / currentQuestions.length) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+
+        // Navegar entre perguntas
+        nextButton.addEventListener('click', () => {
+            if (currentQuestionIndex < currentQuestions.length - 1) {
+                currentQuestionIndex++;
+                updateQuestion();
+                updateProgress();
+            } else {
+                showResults();
+            }
+        });
+
+        prevButton.addEventListener('click', () => {
+            if (currentQuestionIndex > 0) {
+                currentQuestionIndex--;
+                updateQuestion();
+                updateProgress();
+            }
+        });
+
+        // Mostrar resultados
+        function showResults() {
+            const finalScore = Math.round((userScore / currentQuestions.length) * 100);
+            
+            quizScreen.style.display = 'none';
+            resultsScreen.style.display = 'block';
+            
+            finalScoreElement.textContent = `${finalScore}%`;
+            
+            // Mensagem personalizada baseada na pontuação
+            if (finalScore >= 90) {
+                messageElement.textContent = "Excelente! Você demonstrou domínio completo dos métodos e procedimentos das Ouvidorias.";
+            } else if (finalScore >= 70) {
+                messageElement.textContent = "Muito bom! Você tem um bom conhecimento dos processos das Ouvidorias.";
+            } else if (finalScore >= 50) {
+                messageElement.textContent = "Bom trabalho! Continue estudando para aprimorar seu conhecimento.";
+            } else {
+                messageElement.textContent = "Continue estudando! Revise os métodos DIA, JALECO e PROSA para melhorar seu desempenho.";
+            }
+            
+            // Gerar feedback dos métodos
+            generateMethodFeedback();
+        }
+
+        // Gerar feedback sobre os métodos
+        function generateMethodFeedback() {
+            feedbackContent.innerHTML = `
+                <div class="method-card">
+                    <h3><i class="fas fa-calendar-day"></i> Método DIA</h3>
+                    <ul>
+                        <li><strong>D - Denúncias:</strong> Relato formal de atos ilícitos ou irregularidades que configurem violação das normas</li>
+                        <li><strong>I - Informações:</strong> Acompanhamento de legislações e normativos relevantes para orientação qualificada</li>
+                        <li><strong>A - Acompanhamento:</strong> Monitoramento de todas as etapas das manifestações para rastreabilidade</li>
+                    </ul>
+                </div>
+                
+                <div class="method-card">
+                    <h3><i class="fas fa-user-md"></i> Método JALECO</h3>
+                    <ul>
+                        <li><strong>J - Judiciais:</strong> Questões judicializadas ou com potencial de judicialização</li>
+                        <li><strong>A - Assédio:</strong> Condutas de assédio moral ou sexual no âmbito profissional</li>
+                        <li><strong>L - Legislações:</strong> Descumprimento de leis, decretos ou normas</li>
+                        <li><strong>E - Éticas:</strong> Infrações ao Código de Ética da Enfermagem</li>
+                        <li><strong>C - Conselhos:</strong> Conduta de Conselheiros no exercício de funções</li>
+                        <li><strong>O - Outros:</strong> Demais demandantes não enquadrados nas categorias anteriores</li>
+                    </ul>
+                </div>
+                
+                <div class="method-card">
+                    <h3><i class="fas fa-tasks"></i> Método PROSA</h3>
+                    <ul>
+                        <li><strong>P - Prazos:</strong> Acompanhamento rigoroso dos prazos estabelecidos</li>
+                        <li><strong>R - Rotina:</strong> Padronização dos procedimentos internos</li>
+                        <li><strong>O - Outros:</strong> Elogios, reclamações, sugestões, dúvidas</li>
+                        <li><strong>S - Solicitações/SEI:</strong> Demandas específicas com consulta ao SEI</li>
+                        <li><strong>A - Anuidades/Inscrições:</strong> Questões financeiras e de regularização profissional</li>
+                    </ul>
+                </div>
+            `;
+        }
+
+        // Reiniciar o quiz
+        restartButton.addEventListener('click', () => {
+            resultsScreen.style.display = 'none';
+            difficultyScreen.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
