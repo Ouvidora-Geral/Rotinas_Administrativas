@@ -128,6 +128,7 @@
         .section-header i {
             font-size: 1.2rem;
             color: #1a3a6c;
+            transition: transform 0.3s ease;
         }
         
         .section-content {
@@ -159,7 +160,7 @@
             padding: 15px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.08);
             border: 1px solid #e0e8f0;
-            transition: transform 0.3s ease;
+            transition: all 0.3s ease;
         }
         
         .method-card:hover {
@@ -180,7 +181,7 @@
             padding-left: 18px;
         }
         
-        .method-card li {
+        .method-card p {
             margin-bottom: 8px;
             line-height: 1.5;
             position: relative;
@@ -188,7 +189,7 @@
             font-size: 0.95rem;
         }
         
-        .method-card li:before {
+        .method-card p:before {
             content: "•";
             color: #2c5fa3;
             position: absolute;
@@ -380,6 +381,26 @@
             display: none;
         }
         
+        /* Estilos para o fluxo interativo */
+        #flow-info {
+            background: #e8f4ff;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #1a3a6c;
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        #flow-title {
+            color: #1a3a6c;
+            margin-bottom: 10px;
+        }
+        
+        #flow-description {
+            line-height: 1.6;
+        }
+        
         /* Créditos */
         .credits {
             text-align: center;
@@ -409,6 +430,9 @@
             text-align: center;
             max-width: 700px;
             margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #1a3a6c, #2c5fa3);
+            border-radius: 15px;
             color: white;
         }
         
@@ -422,7 +446,6 @@
             margin-bottom: 20px;
             line-height: 1.6;
             font-size: 1rem;
-            color: white;
         }
         
         .difficulty-selector {
@@ -489,13 +512,11 @@
             margin-bottom: 15px;
             padding-bottom: 10px;
             border-bottom: 2px solid rgba(255, 255, 255, 0.2);
-            color: white;
         }
         
         .question-counter {
             font-size: 1rem;
             font-weight: 600;
-            color: white;
         }
         
         .score {
@@ -504,14 +525,12 @@
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.95rem;
-            color: white;
         }
         
         .question {
             font-size: 1.2rem;
             margin-bottom: 25px;
             line-height: 1.5;
-            color: white;
             font-weight: 500;
         }
         
@@ -529,7 +548,6 @@
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1rem;
-            color: white;
         }
         
         .option:hover {
@@ -613,7 +631,6 @@
         .message {
             font-size: 1.2rem;
             margin-bottom: 25px;
-            color: white;
         }
         
         .feedback {
@@ -658,7 +675,6 @@
         .feedback-question {
             font-weight: bold;
             margin-bottom: 10px;
-            color: #333;
         }
         
         .feedback-answer {
@@ -705,6 +721,10 @@
                 flex-direction: column;
                 align-items: center;
             }
+            
+            .method-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 480px) {
@@ -727,6 +747,10 @@
             
             .nav-btn {
                 width: 100%;
+            }
+            
+            .level-btn {
+                min-width: 100%;
             }
         }
     </style>
@@ -760,13 +784,93 @@
                         </div>
                         
                         <p>Assegurando procedimentos uniformes, eficácia no tratamento das manifestações e conformidade com a legislação. Garante uma atuação ética, transparente, diligente e imparcial, com escuta qualificada e foco na melhoria contínua dos serviços.</p>
-                        
-                        <p>Fortalece o papel do Ouvidor como agente de transformação e promotor da transparência, com regras claras sobre competências, prazos e metodologias. Reafirma o compromisso com a escuta ativa, a humanização do atendimento e a valorização da cidadania.</p>
                     </div>
                 </div>
             </div>
             
-            <!-- Seção dos Métodos -->
+            <!-- Nova Seção: Funções e Atribuições da Ouvidoria -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('funcoes')">
+                    <h2><i class="fas fa-tasks"></i> Funções e Atribuições da Ouvidoria</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="funcoes-content">
+                    <div class="method-grid">
+                        <div class="method-card">
+                            <h3><i class="fas fa-sitemap"></i> Estrutura da Ouvidoria</h3>
+                            <p>A Ouvidoria é um setor administrativo, de natureza mediadora, que atua como canal de comunicação entre usuários e o Sistema Cofen/Conselhos Regionais de Enfermagem.</p>
+                            <p><strong>Subordinação:</strong> Diretamente à Presidência da Autarquia, com independência funcional.</p>
+                            <p><strong>Canais de comunicação:</strong> Devem ser acessíveis, inclusivos e adequados às necessidades dos usuários.</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-cogs"></i> Atribuições da Ouvidoria-Geral</h3>
+                            <p>1. Promover integração e padronização entre as Ouvidorias Regionais</p>
+                            <p>2. Organizar reuniões com os Ouvidores do Sistema</p>
+                            <p>3. Monitorar manifestações não finalizadas em nível nacional</p>
+                            <p>4. Emitir relatórios analíticos à Presidência do Cofen</p>
+                            <p>5. Contribuir para melhoria do desempenho institucional</p>
+                            <p>6. Prestar apoio técnico e realizar auditorias nas Ouvidorias Regionais</p>
+                            <p>7. Promover capacitação técnica das equipes regionais</p>
+                            <p>8. Padronizar fluxos de atendimento em nível nacional</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-building"></i> Atribuições das Ouvidorias Regionais</h3>
+                            <p>1. Promover acesso e participação dos usuários na gestão pública</p>
+                            <p>2. Acompanhar tratamento das manifestações em todas as fases</p>
+                            <p>3. Adotar mediação administrativa para resolução pacífica de conflitos</p>
+                            <p>4. Receber, registrar e qualificar manifestações dos usuários</p>
+                            <p>5. Facilitar acesso às informações institucionais</p>
+                            <p>6. Acompanhar implementação da Carta de Serviços ao Usuário</p>
+                            <p>7. Emitir relatórios analíticos à presidência do Conselho Regional</p>
+                            <p>8. Processar e analisar informações obtidas por meio das manifestações</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Nova Seção: Atribuições do Ouvidor -->
+            <div class="study-section">
+                <div class="section-header" onclick="toggleSection('ouvidor')">
+                    <h2><i class="fas fa-user-tie"></i> Atribuições do Ouvidor</h2>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="section-content" id="ouvidor-content">
+                    <div class="method-grid">
+                        <div class="method-card">
+                            <h3><i class="fas fa-bullhorn"></i> Responsabilidades Principais</h3>
+                            <p>1. Liderar, coordenar e supervisionar a ouvidoria</p>
+                            <p>2. Ser elo principal entre sociedade e o Sistema Cofen/Conselhos</p>
+                            <p>3. Garantir canal de comunicação eficiente e transparente</p>
+                            <p>4. Promover diálogo construtivo por meio da escuta qualificada</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-clipboard-list"></i> Atribuições Específicas</h3>
+                            <p>1. Receber, analisar e encaminhar manifestações</p>
+                            <p>2. Garantir proteção dos direitos dos usuários</p>
+                            <p>3. Estimular cultura da transparência e responsabilidade institucional</p>
+                            <p>4. Acompanhar Reuniões Ordinárias do Plenário</p>
+                            <p>5. Informar a Presidência sobre prazos excedidos</p>
+                        </div>
+                        
+                        <div class="method-card">
+                            <h3><i class="fas fa-user-check"></i> Competências Desejáveis</h3>
+                            <p>1. Curso de Capacitação em Ouvidoria</p>
+                            <p>2. Responsabilidade, discrição e organização</p>
+                            <p>3. Habilidades de comunicação empática</p>
+                            <p>4. Conhecimento do Sistema Cofen/Conselhos</p>
+                            <p>5. Atualização sobre legislações e atos normativos</p>
+                            <p>6. Probidade e credibilidade reconhecida</p>
+                            <p>7. Capacidade para responder manifestações de forma tempestiva</p>
+                            <p>8. Visão sistêmica e capacidade analítica</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Seção dos Métodos Mnemônicos -->
             <div class="study-section">
                 <div class="section-header" onclick="toggleSection('metodos')">
                     <h2><i class="fas fa-lightbulb"></i> Métodos Mnemônicos</h2>
@@ -777,36 +881,30 @@
                         <div class="method-card">
                             <h3><i class="fas fa-calendar-day"></i> Método DIA</h3>
                             <p>Macroestrutura da Jornada de Atendimento:</p>
-                            <ul>
-                                <p><strong>D: Denúncias</strong> - Relato formal de atos ilícitos ou irregularidades</p>
-                                <p><strong>I: Informações</strong> - Acompanhamento de legislações e normativos</p>
-                                <p><strong>A: Acompanhamento</strong> - Monitoramento de todas as etapas</p>
-                            </ul>
+                            <p><strong>D: Denúncias</strong> - Relato formal de atos ilícitos ou irregularidades</p>
+                            <p><strong>I: Informações</strong> - Acompanhamento de legislações e normativos</p>
+                            <p><strong>A: Acompanhamento</strong> - Monitoramento de todas as etapas</p>
                         </div>
                         
                         <div class="method-card">
                             <h3><i class="fas fa-user-md"></i> Método JALECO</h3>
                             <p>Classificação Estratégica das Denúncias:</p>
-                            <ul>
-                                <p><strong>J: Judiciais/Jurídicas</strong> - Questões já judicializadas ou com potencial legal, exigindo análise jurídica e observância de prazos processuais.</p>
-                                <p><strong>A: Assédio</strong> - Denúncias de assédio (moral ou sexual) no ambiente profissional, tratadas com confidencialidade e conforme protocolos internos.</p>
-                                <p><strong>L: Legislações</strong> - Aponta descumprimento de normas e leis da enfermagem ou do Sistema Cofen/Conselhos, direcionadas à fiscalização.</p>
-                                <p><strong>E: Éticas</strong> - Infrações ao Código de Ética da Enfermagem, encaminhadas à Comissão de Ética para processo ético.</p>
-                                <p><strong>C: Conselhos e Conselheiros</strong> - Denúncias sobre conduta de Conselheiros Regionais/Federais, seguindo normas específicas ou da administração pública.</p>
-                                <p><strong>O: Outros Demandantes</strong> - Manifestações de usuários não categorizados, mas relevantes para a atuação da Ouvidoria e do Sistema Cofen/Conselhos.</p>
-                            </ul>
+                            <p><strong>J: Judiciais/Jurídicas</strong> - Questões já judicializadas ou com potencial legal, exigindo análise jurídica e observância de prazos processuais.</p>
+                            <p><strong>A: Assédio</strong> - Denúncias de assédio (moral ou sexual) no ambiente profissional, tratadas com confidencialidade e conforme protocolos internos.</p>
+                            <p><strong>L: Legislações</strong> - Aponta descumprimento de normas e leis da enfermagem ou do Sistema Cofen/Conselhos, direcionadas à fiscalização.</p>
+                            <p><strong>E: Éticas</strong> - Infrações ao Código de Ética da Enfermagem, encaminhadas à Comissão de Ética para processo ético.</p>
+                            <p><strong>C: Conselhos e Conselheiros</strong> - Denúncias sobre conduta de Conselheiros Regionais/Federais, seguindo normas específicas ou da administração pública.</p>
+                            <p><strong>O: Outros Demandantes</strong> - Manifestações de usuários não categorizados, mas relevantes para a atuação da Ouvidoria e do Sistema Cofen/Conselhos.</p>
                         </div>
                         
                         <div class="method-card">
                             <h3><i class="fas fa-tasks"></i> Método PROSA</h3>
                             <p>Análise Técnica e Encaminhamentos:</p>
-                            <ul>
-                                <p><strong>P: Prazos</strong> - Acompanhamento rigoroso dos prazos definidos no Art. 27º para cada etapa do tratamento das manifestações.</p>
-                                <p><strong>R: Rotina</strong> - Padronização dos procedimentos internos da Ouvidoria (recebimento, registro, triagem, análise e encaminhamento) para otimizar organização e tempo de resposta.</p>
-                                <p><strong>O: Outros</strong> - Manifestações diversas (elogios, reclamações, dúvidas, assuntos sensíveis), com tratamento específico para reconhecimento ou orientação.</p>
-                                <p><strong>S: Solicitações/SEI</strong> - Pedidos específicos de usuários (pareceres, informações, status processual), atendidos com celeridade e consulta ao SEI.</p>
-                                <p><strong>A: Anuidades/Inscrições</strong> - Questões financeiras (anuidades) e de registro/inscrição profissional, encaminhadas aos setores competentes.</p>
-                            </ul>
+                            <p><strong>P: Prazos</strong> - Acompanhamento rigoroso dos prazos definidos no Art. 27º para cada etapa do tratamento das manifestações.</p>
+                            <p><strong>R: Rotina</strong> - Padronização dos procedimentos internos da Ouvidoria (recebimento, registro, triagem, análise e encaminhamento) para otimizar organização e tempo de resposta.</p>
+                            <p><strong>O: Outros</strong> - Manifestações diversas (elogios, reclamações, dúvidas, assuntos sensíveis), com tratamento específico para reconhecimento ou orientação.</p>
+                            <p><strong>S: Solicitações/SEI</strong> - Pedidos específicos de usuários (pareceres, informações, status processual), atendidos com celeridade e consulta ao SEI.</p>
+                            <p><strong>A: Anuidades/Inscrições</strong> - Questões financeiras (anuidades) e de registro/inscrição profissional, encaminhadas aos setores competentes.</p>
                         </div>
                     </div>
                 </div>
@@ -1031,12 +1129,12 @@
         <div class="credits">
             <p><strong>Desenvolvido por:</strong> Eduardo Fernando de Souza e Glayson Campos</p>
             <p>Baseado na Minuta do Regimento Nacional das Ouvidorias - 2025</p>
-            <p><strong>Versão:</strong> 1.3.0 | Junho 2025</p>
+            <p><strong>Versão:</strong> 1.4.0 | Junho 2025</p>
         </div>
     </div>
 
     <script>
-        // Dados do quiz organizados por nível de dificuldade
+        // Dados do quiz atualizados com novas perguntas
         const quizData = {
             easy: [
                 {
@@ -1045,14 +1143,39 @@
                     answer: 0
                 },
                 {
+                    question: "Qual a principal função da Ouvidoria?",
+                    options: [
+                        "Fiscalizar os profissionais de enfermagem",
+                        "Ser canal de comunicação entre usuários e o Sistema Cofen/Conselhos",
+                        "Substituir os setores administrativos",
+                        "Emitir pareceres técnicos"
+                    ],
+                    answer: 1
+                },
+                {
                     question: "Qual o status de uma manifestação que já foi respondida e está pendente apenas de envio formal ao manifestante?",
                     options: ["A DISTRIBUIR", "TRAMITANDO", "ENCAMINHADA", "RESPONDIDA"],
                     answer: 3
                 },
                 {
-                    question: "Qual o prazo total para a Ouvidoria apresentar resposta conclusiva?",
-                    options: ["10 dias", "15 dias", "30 dias", "45 dias"],
-                    answer: 2
+                    question: "Quem designa o Ouvidor?",
+                    options: [
+                        "A Presidência do Conselho",
+                        "O Plenário do Cofen",
+                        "O Ministério da Saúde",
+                        "A Associação Brasileira de Enfermagem"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "Qual destas é uma atribuição da Ouvidoria-Geral?",
+                    options: [
+                        "Promover capacitação das equipes regionais",
+                        "Realizar fiscalização direta de profissionais",
+                        "Emitir registros profissionais",
+                        "Aplicar penalidades éticas"
+                    ],
+                    answer: 0
                 }
             ],
             medium: [
@@ -1062,24 +1185,39 @@
                     answer: 1
                 },
                 {
+                    question: "Qual destes NÃO é uma atribuição da Ouvidoria-Geral?",
+                    options: [
+                        "Promover capacitação das equipes regionais",
+                        "Realizar fiscalização direta de profissionais",
+                        "Padronizar fluxos de atendimento",
+                        "Emitir relatórios analíticos"
+                    ],
+                    answer: 1
+                },
+                {
                     question: "Qual método é responsável pela análise técnica e encaminhamentos?",
                     options: ["DIA", "JALECO", "PROSA", "Nenhum dos anteriores"],
                     answer: 2
                 },
                 {
-                    question: "Qual o prazo que os setores administrativos têm para analisar e deliberar sobre a demanda após receber da Ouvidoria?",
-                    options: ["5 dias", "10 dias", "15 dias", "20 dias"],
+                    question: "Qual destas é uma competência desejável para o Ouvidor?",
+                    options: [
+                        "Formação em Direito",
+                        "Habilidades de comunicação empática",
+                        "Experiência em enfermagem clínica",
+                        "Domínio de línguas estrangeiras"
+                    ],
                     answer: 1
                 },
                 {
-                    question: "O que significa o status 'ENCAMINHADA'?",
+                    question: "Sobre a subordinação da Ouvidoria, é correto afirmar:",
                     options: [
-                        "Manifestação registrada, ainda não analisada",
-                        "Em análise pela Ouvidoria",
-                        "Enviada à área competente, aguardando resposta",
-                        "Resposta disponível, pendente envio"
+                        "Deve ser subordinada ao setor jurídico",
+                        "Deve ser subordinada diretamente à Presidência",
+                        "Deve ser subordinada ao setor de fiscalização",
+                        "Deve ser subordinada ao setor administrativo"
                     ],
-                    answer: 2
+                    answer: 1
                 }
             ],
             hard: [
@@ -1094,9 +1232,14 @@
                     answer: 0
                 },
                 {
-                    question: "Em que método se classifica as denúncias em categorias como Judiciais, Assédio e Éticas?",
-                    options: ["DIA", "JALECO", "PROSA", "Todos"],
-                    answer: 1
+                    question: "Qual destas é uma atribuição específica do Ouvidor?",
+                    options: [
+                        "Realizar auditorias em hospitais",
+                        "Aplicar penalidades éticas",
+                        "Acompanhar Reuniões Ordinárias do Plenário",
+                        "Emitir registros profissionais"
+                    ],
+                    answer: 2
                 },
                 {
                     question: "Qual o prazo que a Ouvidoria tem para a análise final e apresentação da devolutiva após receber a resposta do setor administrativo?",
@@ -1106,6 +1249,16 @@
                 {
                     question: "Qual o status de uma manifestação que foi finalizada e o registro arquivado?",
                     options: ["RESPONDIDA", "CONCLUÍDA", "ARQUIVADA", "FINALIZADA"],
+                    answer: 1
+                },
+                {
+                    question: "Qual destas NÃO é uma atribuição das Ouvidorias Regionais?",
+                    options: [
+                        "Promover acesso e participação dos usuários",
+                        "Implementar políticas de saúde pública",
+                        "Acompanhar tratamento das manifestações",
+                        "Facilitar acesso às informações institucionais"
+                    ],
                     answer: 1
                 }
             ],
@@ -1141,14 +1294,14 @@
                     answer: 2
                 },
                 {
-                    question: "O que acontece se uma manifestação estiver finalizada na Ouvidoria, mas o processo interno ainda estiver tramitando?",
+                    question: "Sobre o cargo de Ouvidor, é correto afirmar:",
                     options: [
-                        "A manifestação é considerada concluída e não pode ser reaberta",
-                        "A manifestação fica em status 'TRAMITANDO' até a conclusão total",
-                        "A manifestação pode ser reaberta quando a análise pela área competente for concluída",
-                        "A manifestação é arquivada definitivamente"
+                        "Deve ser exercido com dedicação exclusiva",
+                        "Pode ser exercido por qualquer servidor concursado",
+                        "Não requer qualificação específica",
+                        "Tem mandato fixo de 4 anos"
                     ],
-                    answer: 2
+                    answer: 0
                 },
                 {
                     question: "Qual o prazo máximo que a Ouvidoria tem para a análise inicial e encaminhamento ao setor administrativo?",
@@ -1218,7 +1371,7 @@
         // Funções para Material de Estudo
         function toggleSection(sectionId) {
             const content = document.getElementById(`${sectionId}-content`);
-            const icon = document.querySelector(`#${sectionId}-content`).previousElementSibling.querySelector('.fa-chevron-down');
+            const icon = content.previousElementSibling.querySelector('.fa-chevron-down');
             
             if (content.classList.contains('active')) {
                 content.classList.remove('active');
@@ -1267,6 +1420,13 @@
             toggleSection('regimento');
         });
 
+        // Função para randomizar perguntas
+        function getRandomQuestions(level, count) {
+            const allQuestions = [...quizData[level]];
+            const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+            return shuffled.slice(0, count);
+        }
+
         // Iniciar o quiz
         levelButtons.forEach(button => {
             button.addEventListener('click', () => {
@@ -1293,7 +1453,8 @@
 
         // Iniciar o quiz
         function startQuiz(level) {
-            currentQuestions = [...quizData[level]];
+            // Pegar 5 perguntas aleatórias do nível selecionado
+            currentQuestions = getRandomQuestions(level, 5);
             currentQuestionIndex = 0;
             userScore = 0;
             userAnswers = [];
