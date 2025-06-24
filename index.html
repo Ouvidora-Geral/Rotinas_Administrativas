@@ -409,10 +409,11 @@
             text-align: center;
             max-width: 700px;
             margin: 0 auto;
+            color: white;
         }
         
         .quiz-intro h2 {
-            color: #1a3a6c;
+            color: white;
             margin-bottom: 15px;
             font-size: 1.6rem;
         }
@@ -421,6 +422,7 @@
             margin-bottom: 20px;
             line-height: 1.6;
             font-size: 1rem;
+            color: white;
         }
         
         .difficulty-selector {
@@ -474,6 +476,11 @@
         
         .quiz-container {
             display: none;
+            background: linear-gradient(135deg, #1a3a6c, #2c5fa3);
+            color: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-top: 15px;
         }
         
         .question-header {
@@ -481,28 +488,30 @@
             justify-content: space-between;
             margin-bottom: 15px;
             padding-bottom: 10px;
-            border-bottom: 2px solid #e9ecef;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+            color: white;
         }
         
         .question-counter {
             font-size: 1rem;
             font-weight: 600;
-            color: #1a3a6c;
+            color: white;
         }
         
         .score {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.2);
             padding: 5px 12px;
             border-radius: 20px;
             font-weight: 600;
             font-size: 0.95rem;
+            color: white;
         }
         
         .question {
             font-size: 1.2rem;
             margin-bottom: 25px;
             line-height: 1.5;
-            color: #212529;
+            color: white;
             font-weight: 500;
         }
         
@@ -513,33 +522,34 @@
         }
         
         .option {
-            background: #f8f9fa;
-            border: 2px solid #e9ecef;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 10px;
             padding: 12px 15px;
             cursor: pointer;
             transition: all 0.2s ease;
             font-size: 1rem;
+            color: white;
         }
         
         .option:hover {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.2);
             transform: translateX(5px);
         }
         
         .option.selected {
-            background: #cce5ff;
+            background: rgba(0, 123, 255, 0.3);
             border-color: #007bff;
             font-weight: 600;
         }
         
         .option.correct {
-            background: #d4edda;
+            background: rgba(40, 167, 69, 0.3);
             border-color: #28a745;
         }
         
         .option.incorrect {
-            background: #f8d7da;
+            background: rgba(220, 53, 69, 0.3);
             border-color: #dc3545;
         }
         
@@ -559,6 +569,7 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
         
         .nav-btn:disabled {
@@ -576,30 +587,37 @@
             text-align: center;
             padding: 25px;
             display: none;
+            position: relative;
+            background: linear-gradient(135deg, #1a3a6c, #2c5fa3);
+            border-radius: 15px;
+            margin-top: 15px;
+            color: white;
         }
         
         .results h2 {
             font-size: 1.8rem;
-            color: #1a3a6c;
+            color: #D4AF37;
             margin-bottom: 15px;
         }
         
         .final-score {
             font-size: 4rem;
             font-weight: 700;
-            color: #1a3a6c;
+            color: #D4AF37;
             margin: 15px 0;
             text-shadow: 0 3px 6px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 2;
         }
         
         .message {
             font-size: 1.2rem;
             margin-bottom: 25px;
-            color: #495057;
+            color: white;
         }
         
         .feedback {
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
             padding: 15px;
             margin-top: 25px;
@@ -607,14 +625,14 @@
         }
         
         .feedback h3 {
-            color: #1a3a6c;
+            color: #D4AF37;
             margin-bottom: 12px;
             font-size: 1.2rem;
         }
         
         .progress-bar {
             height: 8px;
-            background: #e9ecef;
+            background: rgba(255, 255, 255, 0.2);
             border-radius: 4px;
             margin: 15px 0;
             overflow: hidden;
@@ -622,9 +640,79 @@
         
         .progress {
             height: 100%;
-            background: linear-gradient(to right, #1a3a6c, #2c5fa3);
+            background: linear-gradient(to right, #D4AF37, #FFD700);
             border-radius: 4px;
             transition: width 0.5s ease;
+        }
+        
+        /* Estrelas animadas */
+        .stars-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .star {
+            position: absolute;
+            color: #D4AF37;
+            animation: float 3s infinite ease-in-out;
+            opacity: 0;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+        
+        /* Estilos para o feedback das respostas */
+        .feedback-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            color: #333;
+        }
+        
+        .feedback-question {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        
+        .feedback-answer {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .correct-answer {
+            color: #28a745;
+        }
+        
+        .incorrect-answer {
+            color: #dc3545;
+        }
+        
+        .feedback-icon {
+            margin-left: 8px;
+            font-size: 1.2rem;
         }
         
         /* Media Queries para Mobile */
@@ -888,7 +976,7 @@
                         <div class="legislation-item">
                             <i class="fas fa-book"></i>
                             <div>
-                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decreto/d9094.htm" target="_blank">Decreto nº 9.094/2017</a></h3>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decremento/d9094.htm" target="_blank">Decreto nº 9.094/2017</a></h3>
                                 <p>Regulamenta a Lei nº 13.460/2017 sobre ouvidorias e participação do usuário.</p>
                             </div>
                         </div>
@@ -964,13 +1052,14 @@
             </div>
             
             <div class="results">
+                <div class="stars-container" id="stars-container"></div>
                 <h2>Quiz Concluído!</h2>
                 <div class="final-score" id="final-score">0%</div>
                 <div class="message" id="message"></div>
                 <button class="nav-btn" id="restart-btn">Reiniciar Quiz</button>
                 
                 <div class="feedback" id="feedback">
-                    <h3>Resumo dos Métodos</h3>
+                    <h3>Resumo das Respostas</h3>
                     <div id="feedback-content"></div>
                 </div>
             </div>
@@ -1126,6 +1215,7 @@
         const restartButton = document.getElementById('restart-btn');
         const progressBar = document.getElementById('progress');
         const feedbackContent = document.getElementById('feedback-content');
+        const starsContainer = document.getElementById('stars-container');
 
         // Variáveis do quiz
         let currentLevel = '';
@@ -1134,6 +1224,7 @@
         let userScore = 0;
         let userAnswers = [];
         let selectedOption = null;
+        let autoAdvanceTimeout = null;
 
         // Sistema de abas
         tabBtns.forEach(btn => {
@@ -1148,9 +1239,17 @@
                 btn.classList.add('active');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
                 
+                // Fechar todas as seções do material de estudo
+                document.querySelectorAll('.section-content').forEach(content => {
+                    content.classList.remove('active');
+                    const icon = content.previousElementSibling.querySelector('.fa-chevron-down');
+                    icon.classList.remove('fa-chevron-up');
+                    icon.classList.add('fa-chevron-down');
+                });
+                
                 // Resetar o quiz ao mudar de aba
                 if (tabId === 'quiz') {
-                    resetQuiz();
+                resetQuiz();
                 }
             });
         });
@@ -1220,6 +1319,15 @@
             difficultyScreen.style.display = 'block';
             quizScreen.style.display = 'none';
             resultsScreen.style.display = 'none';
+            clearAutoAdvance();
+        }
+
+        // Limpar timeout de autoavanço
+        function clearAutoAdvance() {
+            if (autoAdvanceTimeout) {
+                clearTimeout(autoAdvanceTimeout);
+                autoAdvanceTimeout = null;
+            }
         }
 
         // Iniciar o quiz
@@ -1276,6 +1384,9 @@
 
         // Selecionar uma opção
         function selectOption(optionElement, optionIndex) {
+            // Se já tiver respondido, não permitir nova seleção
+            if (userAnswers[currentQuestionIndex] !== undefined) return;
+            
             // Remover seleção anterior
             if (selectedOption) {
                 selectedOption.classList.remove('selected');
@@ -1290,6 +1401,18 @@
             
             // Mostrar feedback imediato
             showAnswerFeedback();
+            
+            // Configurar autoavanço após 1 segundo
+            clearAutoAdvance();
+            autoAdvanceTimeout = setTimeout(() => {
+                if (currentQuestionIndex < currentQuestions.length - 1) {
+                    currentQuestionIndex++;
+                    updateQuestion();
+                    updateProgress();
+                } else {
+                    showResults();
+                }
+            }, 1000);
         }
 
         // Mostrar feedback da resposta
@@ -1324,6 +1447,7 @@
 
         // Navegar entre perguntas
         nextButton.addEventListener('click', () => {
+            clearAutoAdvance();
             if (currentQuestionIndex < currentQuestions.length - 1) {
                 currentQuestionIndex++;
                 updateQuestion();
@@ -1334,12 +1458,38 @@
         });
 
         prevButton.addEventListener('click', () => {
+            clearAutoAdvance();
             if (currentQuestionIndex > 0) {
                 currentQuestionIndex--;
                 updateQuestion();
                 updateProgress();
             }
         });
+
+        // Criar estrelas animadas
+        function createStars() {
+            starsContainer.innerHTML = '';
+            const starCount = 20;
+            
+            for (let i = 0; i < starCount; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.innerHTML = '<i class="fas fa-star"></i>';
+                
+                // Posição aleatória
+                const left = Math.random() * 100;
+                const top = Math.random() * 100;
+                const delay = Math.random() * 2;
+                const duration = 2 + Math.random() * 3;
+                
+                star.style.left = `${left}%`;
+                star.style.top = `${top}%`;
+                star.style.animationDelay = `${delay}s`;
+                star.style.animationDuration = `${duration}s`;
+                
+                starsContainer.appendChild(star);
+            }
+        }
 
         // Mostrar resultados
         function showResults() {
@@ -1349,6 +1499,9 @@
             resultsScreen.style.display = 'block';
             
             finalScoreElement.textContent = `${finalScore}%`;
+            
+            // Criar estrelas animadas
+            createStars();
             
             // Mensagem personalizada baseada na pontuação
             if (finalScore >= 90) {
@@ -1367,39 +1520,30 @@
 
         // Gerar feedback sobre os métodos
         function generateMethodFeedback() {
-            feedbackContent.innerHTML = `
-                <div class="method-card">
-                    <h3><i class="fas fa-calendar-day"></i> Método DIA</h3>
-                    <ul>
-                        <li><strong>D - Denúncias:</strong> Relato formal de atos ilícitos ou irregularidades que configurem violação das normas</li>
-                        <li><strong>I - Informações:</strong> Acompanhamento de legislações e normativos relevantes para orientação qualificada</li>
-                        <li><strong>A - Acompanhamento:</strong> Monitoramento de todas as etapas das manifestações para rastreabilidade</li>
-                    </ul>
-                </div>
+            let feedbackHTML = '';
+            
+            currentQuestions.forEach((question, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === question.answer;
                 
-                <div class="method-card">
-                    <h3><i class="fas fa-user-md"></i> Método JALECO</h3>
-                    <ul>
-                        <li><strong>J - Judiciais:</strong> Questões judicializadas ou com potencial de judicialização</li>
-                        <li><strong>A - Assédio:</strong> Condutas de assédio moral ou sexual no âmbito profissional</li>
-                        <li><strong>L - Legislações:</strong> Descumprimento de leis, decretos ou normas</li>
-                        <li><strong>E - Éticas:</strong> Infrações ao Código de Ética da Enfermagem</li>
-                        <li><strong>C - Conselhos:</strong> Conduta de Conselheiros no exercício de funções</li>
-                        <li><strong>O - Outros:</strong> Demais demandantes não enquadrados nas categorias anteriores</li>
-                    </ul>
-                </div>
-                
-                <div class="method-card">
-                    <h3><i class="fas fa-tasks"></i> Método PROSA</h3>
-                    <ul>
-                        <li><strong>P - Prazos:</strong> Acompanhamento rigoroso dos prazos estabelecidos</li>
-                        <li><strong>R - Rotina:</strong> Padronização dos procedimentos internos</li>
-                        <li><strong>O - Outros:</strong> Elogios, reclamações, sugestões, dúvidas</li>
-                        <li><strong>S - Solicitações/SEI:</strong> Demandas específicas com consulta ao SEI</li>
-                        <li><strong>A - Anuidades/Inscrições:</strong> Questões financeiras e de regularização profissional</li>
-                    </ul>
-                </div>
-            `;
+                feedbackHTML += `
+                    <div class="feedback-item">
+                        <div class="feedback-question">${index + 1}. ${question.question}</div>
+                        <div class="feedback-answer ${isCorrect ? 'correct-answer' : 'incorrect-answer'}">
+                            Sua resposta: ${question.options[userAnswer]}
+                            <i class="fas fa-${isCorrect ? 'check' : 'times'} feedback-icon"></i>
+                        </div>
+                        ${!isCorrect ? `
+                        <div class="feedback-answer correct-answer">
+                            Resposta correta: ${question.options[question.answer]}
+                            <i class="fas fa-check feedback-icon"></i>
+                        </div>
+                        ` : ''}
+                    </div>
+                `;
+            });
+            
+            feedbackContent.innerHTML = feedbackHTML;
         }
 
         // Reiniciar o quiz
