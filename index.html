@@ -645,41 +645,6 @@
             transition: width 0.5s ease;
         }
         
-        /* Estrelas animadas */
-        .stars-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            overflow: hidden;
-            z-index: 1;
-        }
-        
-        .star {
-            position: absolute;
-            color: #D4AF37;
-            animation: float 3s infinite ease-in-out;
-            opacity: 0;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translateY(0) rotate(0deg);
-                opacity: 0;
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(-100px) rotate(360deg);
-                opacity: 0;
-            }
-        }
-        
         /* Estilos para o feedback das respostas */
         .feedback-item {
             background: white;
@@ -943,8 +908,6 @@
                                 <p><strong>Análise Complementar</strong> Nos casos de maior complexidade, como processos éticos, denúncias, solicitações de atos normativos, análises jurídicas ou situações que exijam deliberações de outros setores do Conselho, a tramitação deverá ser devidamente justificada e documentada. Nesses casos, o manifestante será formalmente informado e receberá o número de protocolo SEI para acompanhamento. A manifestação será finalizada no âmbito da Ouvidoria e poderá ser reaberta após a conclusão da análise pela área competente.</p>
                             </div>
                         </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -976,7 +939,7 @@
                         <div class="legislation-item">
                             <i class="fas fa-book"></i>
                             <div>
-                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decremento/d9094.htm" target="_blank">Decreto nº 9.094/2017</a></h3>
+                                <h3><a href="http://www.planalto.gov.br/ccivil_03/_ato2015-2018/2017/decreto/d9094.htm" target="_blank">Decreto nº 9.094/2017</a></h3>
                                 <p>Regulamenta a Lei nº 13.460/2017 sobre ouvidorias e participação do usuário.</p>
                             </div>
                         </div>
@@ -1052,7 +1015,6 @@
             </div>
             
             <div class="results">
-                <div class="stars-container" id="stars-container"></div>
                 <h2>Quiz Concluído!</h2>
                 <div class="final-score" id="final-score">0%</div>
                 <div class="message" id="message"></div>
@@ -1069,7 +1031,7 @@
         <div class="credits">
             <p><strong>Desenvolvido por:</strong> Eduardo Fernando de Souza e Glayson Campos</p>
 <p>Baseado na Minuta do Regimento Nacional das Ouvidorias - 2025</p>
-            <p><strong>Versão:</strong> 2.0.0 | Junho 2025</p>
+            <p><strong>Versão:</strong> 2.4.0 | Junho 2025</p>
         </div>
     </div>
 
@@ -1215,7 +1177,6 @@
         const restartButton = document.getElementById('restart-btn');
         const progressBar = document.getElementById('progress');
         const feedbackContent = document.getElementById('feedback-content');
-        const starsContainer = document.getElementById('stars-container');
 
         // Variáveis do quiz
         let currentLevel = '';
@@ -1249,7 +1210,7 @@
                 
                 // Resetar o quiz ao mudar de aba
                 if (tabId === 'quiz') {
-                resetQuiz();
+                    resetQuiz();
                 }
             });
         });
@@ -1466,31 +1427,6 @@
             }
         });
 
-        // Criar estrelas animadas
-        function createStars() {
-            starsContainer.innerHTML = '';
-            const starCount = 20;
-            
-            for (let i = 0; i < starCount; i++) {
-                const star = document.createElement('div');
-                star.classList.add('star');
-                star.innerHTML = '<i class="fas fa-star"></i>';
-                
-                // Posição aleatória
-                const left = Math.random() * 100;
-                const top = Math.random() * 100;
-                const delay = Math.random() * 2;
-                const duration = 2 + Math.random() * 3;
-                
-                star.style.left = `${left}%`;
-                star.style.top = `${top}%`;
-                star.style.animationDelay = `${delay}s`;
-                star.style.animationDuration = `${duration}s`;
-                
-                starsContainer.appendChild(star);
-            }
-        }
-
         // Mostrar resultados
         function showResults() {
             const finalScore = Math.round((userScore / currentQuestions.length) * 100);
@@ -1499,9 +1435,6 @@
             resultsScreen.style.display = 'block';
             
             finalScoreElement.textContent = `${finalScore}%`;
-            
-            // Criar estrelas animadas
-            createStars();
             
             // Mensagem personalizada baseada na pontuação
             if (finalScore >= 90) {
@@ -1550,6 +1483,7 @@
         restartButton.addEventListener('click', () => {
             resultsScreen.style.display = 'none';
             difficultyScreen.style.display = 'block';
+            startQuiz(currentLevel);
         });
     </script>
 </body>
