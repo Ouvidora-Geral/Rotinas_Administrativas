@@ -696,6 +696,97 @@
             font-size: 1.2rem;
         }
         
+        /* Novo Estilo para Resultado Visual */
+        .result-container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        
+        .result-title {
+            color: #1a3a6c;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .result-visual {
+            margin: 30px 0;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .result-circle {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            background: conic-gradient(#28a745 var(--percentage), #e9ecef var(--percentage));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        
+        .result-inner {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.1);
+        }
+        
+        .result-percent {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #1a3a6c;
+        }
+        
+        .result-label {
+            font-size: 1rem;
+            color: #6c757d;
+            margin-top: 5px;
+        }
+        
+        .result-feedback {
+            font-size: 1.2rem;
+            margin: 20px 0;
+            color: #1a3a6c;
+            font-weight: 500;
+        }
+        
+        .result-stars {
+            margin: 20px 0;
+            font-size: 2rem;
+            color: #FFD700;
+        }
+        
+        .restart-btn {
+            background: linear-gradient(to right, #1a3a6c, #2c5fa3);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        
+        .restart-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 10px rgba(0,0,0,0.2);
+        }
+        
         /* Media Queries para Mobile */
         @media (max-width: 768px) {
             .tab-btn {
@@ -725,6 +816,16 @@
             .method-grid {
                 grid-template-columns: 1fr;
             }
+            
+            .result-circle {
+                width: 180px;
+                height: 180px;
+            }
+            
+            .result-inner {
+                width: 140px;
+                height: 140px;
+            }
         }
         
         @media (max-width: 480px) {
@@ -752,6 +853,20 @@
             .level-btn {
                 min-width: 100%;
             }
+            
+            .result-circle {
+                width: 150px;
+                height: 150px;
+            }
+            
+            .result-inner {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .result-percent {
+                font-size: 2rem;
+            }
         }
     </style>
 </head>
@@ -765,7 +880,7 @@
         
         <div class="tabs">
             <button class="tab-btn active" data-tab="study"><i class="fas fa-book"></i> Material de Estudo</button>
-            <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Quiz</button>
+            <button class="tab-btn" data-tab="quiz"><i class="fas fa-question-circle"></i> Teste Seu Conhecimento</button>
         </div>
         
         <div class="tab-content active" id="study-tab">
@@ -1112,16 +1227,29 @@
                 </div>
             </div>
             
-            <div class="results">
-                <h2>Quiz Concluído!</h2>
-                <div class="final-score" id="final-score">0%</div>
-                <div class="message" id="message"></div>
-                <button class="nav-btn" id="restart-btn">Reiniciar Quiz</button>
+            <!-- Novo Placar Final do Quiz -->
+            <div id="quiz-result" class="result-container" style="display: none;">
+                <h3 class="result-title">Seu Desempenho</h3>
                 
-                <div class="feedback" id="feedback">
+                <div class="result-visual">
+                    <div class="result-circle" id="result-circle">
+                        <div class="result-inner">
+                            <div class="result-percent" id="result-percent">0%</div>
+                            <div class="result-label">de acerto</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="result-feedback" id="result-feedback"></div>
+                
+                <div class="result-stars" id="result-stars"></div>
+                
+                <div id="feedback">
                     <h3>Resumo das Respostas</h3>
                     <div id="feedback-content"></div>
                 </div>
+                
+                <button class="restart-btn" onclick="restartQuiz()">Fazer Novamente</button>
             </div>
         </div>
         
@@ -1176,6 +1304,36 @@
                         "Aplicar penalidades éticas"
                     ],
                     answer: 0
+                },
+                {
+                    question: "Qual o prazo total para resposta conclusiva a partir do registro de uma manifestação?",
+                    options: ["15 dias", "30 dias", "45 dias", "60 dias"],
+                    answer: 1
+                },
+                {
+                    question: "Qual método mnemônico é usado para classificação estratégica das denúncias?",
+                    options: ["DIA", "JALECO", "PROSA", "Nenhum dos anteriores"],
+                    answer: 1
+                },
+                {
+                    question: "Qual destes NÃO é um canal de comunicação da Ouvidoria?",
+                    options: ["Telefone", "E-mail", "Formulário online", "Redes sociais oficiais"],
+                    answer: 3
+                },
+                {
+                    question: "Qual a subordinação da Ouvidoria?",
+                    options: [
+                        "Diretamente à Presidência",
+                        "Ao setor jurídico",
+                        "À Comissão de Ética",
+                        "Ao setor de fiscalização"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "Qual destes é um princípio da Ouvidoria?",
+                    options: ["Transparência", "Sigilo absoluto", "Fiscalização", "Punição"],
+                    answer: 0
                 }
             ],
             medium: [
@@ -1218,6 +1376,36 @@
                         "Deve ser subordinada ao setor administrativo"
                     ],
                     answer: 1
+                },
+                {
+                    question: "Qual o prazo para análise inicial e encaminhamento ao setor administrativo?",
+                    options: ["5 dias", "10 dias", "15 dias", "20 dias"],
+                    answer: 2
+                },
+                {
+                    question: "No método PROSA, o que a letra 'P' representa?",
+                    options: ["Processos", "Prazos", "Protocolos", "Pareceres"],
+                    answer: 1
+                },
+                {
+                    question: "Qual destes é um status válido para manifestações na Ouvidoria?",
+                    options: ["PENDENTE", "TRAMITANDO", "ARQUIVADA", "CANCELADA"],
+                    answer: 1
+                },
+                {
+                    question: "Qual destas leis NÃO está diretamente relacionada com as atribuições da Ouvidoria?",
+                    options: ["Lei 13.460/2017", "Lei 12.527/2011", "Lei 13.709/2018", "Lei 8.080/1990"],
+                    answer: 3
+                },
+                {
+                    question: "Qual destes é um direito do usuário da Ouvidoria?",
+                    options: [
+                        "Receber resposta em prazo determinado",
+                        "Ter acesso a informações sigilosas de terceiros",
+                        "Exigir punição imediata de profissionais",
+                        "Solicitar revisão de processos éticos"
+                    ],
+                    answer: 0
                 }
             ],
             hard: [
@@ -1260,6 +1448,51 @@
                         "Facilitar acesso às informações institucionais"
                     ],
                     answer: 1
+                },
+                {
+                    question: "No método JALECO, a letra 'E' refere-se a:",
+                    options: [
+                        "Elogios",
+                        "Éticas",
+                        "Exigências",
+                        "Encaminhamentos"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Qual o prazo que os setores administrativos têm para analisar e deliberar sobre uma demanda encaminhada pela Ouvidoria?",
+                    options: ["5 dias", "7 dias", "10 dias", "15 dias"],
+                    answer: 2
+                },
+                {
+                    question: "Qual destes é um requisito para o cargo de Ouvidor?",
+                    options: [
+                        "Formação em Direito",
+                        "Experiência em enfermagem",
+                        "Curso de Capacitação em Ouvidoria",
+                        "Título de especialista"
+                    ],
+                    answer: 2
+                },
+                {
+                    question: "Em que situação uma manifestação pode ser reaberta após ter sido concluída?",
+                    options: [
+                        "Quando o manifestante não ficar satisfeito com a resposta",
+                        "Quando o processo permanecer em tramitação interna",
+                        "Quando novas informações forem descobertas",
+                        "Quando o Ouvidor considerar necessário"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Qual destes princípios NÃO se aplica à atuação da Ouvidoria?",
+                    options: [
+                        "Imparcialidade",
+                        "Sigilo",
+                        "Punitividade",
+                        "Transparência"
+                    ],
+                    answer: 2
                 }
             ],
             expert: [
@@ -1307,6 +1540,56 @@
                     question: "Qual o prazo máximo que a Ouvidoria tem para a análise inicial e encaminhamento ao setor administrativo?",
                     options: ["5 dias", "10 dias", "15 dias", "20 dias"],
                     answer: 2
+                },
+                {
+                    question: "Qual destas situações NÃO é de competência da Ouvidoria?",
+                    options: [
+                        "Receber denúncias sobre conduta de conselheiros",
+                        "Analisar processos éticos",
+                        "Orientar sobre legislação da enfermagem",
+                        "Mediar conflitos administrativos"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Qual a principal finalidade do método JALECO?",
+                    options: [
+                        "Classificar estratégicamente as denúncias",
+                        "Estabelecer prazos para atendimento",
+                        "Definir fluxos administrativos",
+                        "Organizar reuniões da ouvidoria"
+                    ],
+                    answer: 0
+                },
+                {
+                    question: "Qual destes documentos NÃO é de competência da Ouvidoria emitir?",
+                    options: [
+                        "Relatórios analíticos",
+                        "Respostas às manifestações",
+                        "Pareceres técnicos",
+                        "Comunicações internas"
+                    ],
+                    answer: 2
+                },
+                {
+                    question: "Em caso de denúncia de assédio, qual o procedimento adequado da Ouvidoria?",
+                    options: [
+                        "Encaminhar imediatamente à Comissão de Ética",
+                        "Tratar com confidencialidade e seguir protocolos internos",
+                        "Arquivar por falta de competência",
+                        "Solicitar provas documentais antes de proceder"
+                    ],
+                    answer: 1
+                },
+                {
+                    question: "Qual o papel da Ouvidoria-Geral em relação às Ouvidorias Regionais?",
+                    options: [
+                        "Fiscalizar e punir irregularidades",
+                        "Substituir nas ausências e férias",
+                        "Promover integração e padronização",
+                        "Controlar diretamente os procedimentos"
+                    ],
+                    answer: 2
                 }
             ]
         };
@@ -1316,18 +1599,19 @@
         const tabContents = document.querySelectorAll('.tab-content');
         const difficultyScreen = document.querySelector('.quiz-intro');
         const quizScreen = document.querySelector('.quiz-container');
-        const resultsScreen = document.querySelector('.results');
+        const resultsScreen = document.getElementById('quiz-result');
         const levelButtons = document.querySelectorAll('.level-btn');
         const questionElement = document.getElementById('question');
         const optionsElement = document.getElementById('options');
         const currentElement = document.getElementById('current');
         const totalElement = document.getElementById('total');
         const scoreElement = document.getElementById('score');
-        const finalScoreElement = document.getElementById('final-score');
-        const messageElement = document.getElementById('message');
+        const resultPercentElement = document.getElementById('result-percent');
+        const resultCircle = document.getElementById('result-circle');
+        const resultFeedback = document.getElementById('result-feedback');
+        const resultStars = document.getElementById('result-stars');
         const prevButton = document.getElementById('prev-btn');
         const nextButton = document.getElementById('next-btn');
-        const restartButton = document.getElementById('restart-btn');
         const progressBar = document.getElementById('progress');
         const feedbackContent = document.getElementById('feedback-content');
 
@@ -1410,7 +1694,7 @@
                     break;
                 case 'conclusao':
                     title.textContent = 'Conclusão e Arquivamento';
-                    description.textContent = 'A finalização de uma manifestação na Ouvidoria ocorre com o envio da resposta formal ao manifestante. No entanto, sua reabertura é permitida caso o processo interno associado persista em tramitação, possibilitando nova análise após a conclusão pela área competente, em observância aos §§ 1º e 2º do Art. 26 e Art. 28 do Regimento.';
+                    description.textContent = 'A finalização de uma manifestação na Ouvidoria ocorre com o envio da resposta formal ao manifestante. No entanto, sua reabertura é permitida caso o processo interno associado persista em tramitação, possibilitando nova análise após a conclusão pela área competente, em observância aos §§ 1º, 2º do Art. 26º e Art. 28º do Regimento.';
                     break;
             }
         }
@@ -1595,17 +1879,23 @@
             quizScreen.style.display = 'none';
             resultsScreen.style.display = 'block';
             
-            finalScoreElement.textContent = `${finalScore}%`;
+            // Atualizar o visual do resultado
+            resultPercentElement.textContent = `${finalScore}%`;
+            resultCircle.style.setProperty('--percentage', `${finalScore}%`);
             
             // Mensagem personalizada baseada na pontuação
             if (finalScore >= 90) {
-                messageElement.textContent = "Excelente! Você demonstrou domínio completo dos métodos e procedimentos das Ouvidorias.";
+                resultFeedback.textContent = "Excelente! Você demonstrou domínio completo dos métodos e procedimentos das Ouvidorias.";
+                resultStars.innerHTML = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>';
             } else if (finalScore >= 70) {
-                messageElement.textContent = "Muito bom! Você tem um bom conhecimento dos processos das Ouvidorias.";
+                resultFeedback.textContent = "Muito bom! Você tem um bom conhecimento dos processos das Ouvidorias.";
+                resultStars.innerHTML = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i>';
             } else if (finalScore >= 50) {
-                messageElement.textContent = "Bom trabalho! Continue estudando para aprimorar seu conhecimento.";
+                resultFeedback.textContent = "Bom trabalho! Continue estudando para aprimorar seu conhecimento.";
+                resultStars.innerHTML = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             } else {
-                messageElement.textContent = "Continue estudando! Revise os métodos DIA, JALECO e PROSA para melhorar seu desempenho.";
+                resultFeedback.textContent = "Continue estudando! Revise os métodos DIA, JALECO e PROSA para melhorar seu desempenho.";
+                resultStars.innerHTML = '<i class="fas fa-star"></i><i class="fas fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i><i class="far fa-star"></i>';
             }
             
             // Gerar feedback dos métodos
@@ -1641,11 +1931,11 @@
         }
 
         // Reiniciar o quiz
-        restartButton.addEventListener('click', () => {
+        function restartQuiz() {
             resultsScreen.style.display = 'none';
             difficultyScreen.style.display = 'block';
             startQuiz(currentLevel);
-        });
+        }
     </script>
 </body>
 </html>
